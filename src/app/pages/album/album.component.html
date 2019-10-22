@@ -1,0 +1,36 @@
+<button (click)="back()" class="btn-back" type="button"><i class="fa fa-angle-left"></i> voltar</button>
+<ng-container *ngIf="(album$ | async) as album">
+  <div class="album-media">
+    <div class="card">
+      <div class="card-image">
+        <img [alt]="album?.name" [src]="album.images[1].url" [width]="album.images[1].width">
+      </div>
+      <div class="card-footer">
+        <p>{{album.name}}</p>
+        <p>{{album.artists[0]?.name}}</p>
+      </div>
+    </div>
+    <div class="music-list">
+      <ol type="1">
+        <li *ngFor="let track of album.tracks.items"
+            [class.playing]="(audioService.playing$ | async) && audioService.track.id === track.id">
+          <div class="track-info">
+            <div class="icons-wrapper">
+              <i
+                *ngIf="(audioService.playing$ | async) && audioService.track.id === track.id && !audioService.audio.paused"
+                class="fa fa-volume-up"></i>
+              <i (click)="track.preview_url && play(track, album)"
+                 [class.fa-pause]="(audioService.playing$ | async) && !audioService?.audio.paused && audioService.track.id === track.id"
+                 [class.fa-play]="!(audioService.playing$ | async) || audioService?.audio.paused ||
+            (audioService.playing$ | async) && audioService.track.id !== track.id"
+                 class="fa">
+              </i>
+            </div>
+            <p>{{track.name}}</p>
+            <p>{{track.duration_ms | msToTime: true}}</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,72 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 135px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 85.4vw;
+  margin: 0 auto;
+}
+
+.toolbar {
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  height: 43px;
+
+  .logo {
+    transition: opacity 300ms ease-in-out;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      height: 43px;
+      fill: white;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+footer {
+  position: fixed;
+  bottom: -136px;
+  width: 100%;
+  transition: all 1s ease-in-out;
+  opacity: 0;
+
+  &.playing {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1200px) {
+  .content {
+    padding-left: 100px;
+    margin-top: 0;
+  }
+
+  :host {
+    ::ng-deep {
+      .results {
+        grid-template-columns: repeat(auto-fit, 160px) !important;
+      }
+
+      .now-playing {
+        width: 30%;
+      }
+    }
+  }
+}

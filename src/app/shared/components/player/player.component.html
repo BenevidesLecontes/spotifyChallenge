@@ -1,0 +1,31 @@
+<div class="player-container">
+  <div class="now-playing">
+    <div class="media">
+      <img *ngIf="audioService.track?.album?.images[0]?.url as url" [alt]="audioService?.track?.name" [src]="url">
+    </div>
+    <div class="info">
+      <h5>{{audioService.track?.name}}</h5>
+      <p>
+        <ng-container
+          *ngFor="let artist of audioService.track?.artists; last as last">{{artist?.name}}{{last ? '' : ', '}}</ng-container>
+      </p>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="action-button">
+      <a (click)="audioService.pauseTrack()" [class.active]="(audioService.playing$ | async)" class="play-pause">
+        <i [class.fa-pause]="(audioService.playing$ | async) && !audioService?.audio.paused"
+           [class.fa-play]="!(audioService.playing$ | async) || audioService?.audio.paused"
+           class="fa"></i>
+      </a>
+    </div>
+    <div class="player">
+      <div class="time-rail">
+        <div [style.left]="audioService.elapsedTime | async | percent: '1.2' : 'en-US'" class="thumb"></div>
+        <div class="track"></div>
+      </div>
+      <div class="time"><small class="current">{{audioService.audio?.currentTime | msToTime}}</small> / <small
+        class="duration">{{audioService.track?.duration_ms | msToTime : true}}</small></div>
+    </div>
+  </div>
+</div>

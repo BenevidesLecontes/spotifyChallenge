@@ -1,0 +1,43 @@
+<ng-container *ngIf="items?.tracks?.length">
+  <h5>Músicas</h5>
+  <div class="results">
+    <ng-container *ngFor="let track of items.tracks; trackBy:trackByFn">
+      <div *ngIf="track.preview_url as preview_url"
+           [class.playing]="(audioService.playing$ | async) && audioService.track.id === track.id"
+           class="card">
+        <div class="card-image">
+          <img [alt]="track?.name" [src]="track.album.images[0].url">
+          <button (click)="play(preview_url, track)" class="play-btn" type="button">
+            <i
+              [class.fa-pause]="(audioService.playing$ | async) && !audioService?.audio.paused && audioService.track.id === track.id"
+              [class.fa-play]="!(audioService.playing$ | async) || audioService?.audio.paused ||
+            (audioService.playing$ | async) && audioService.track.id !== track.id"
+              class="fa">
+            </i>
+          </button>
+        </div>
+        <div class="card-footer">
+          <p>{{track.album.name}}</p>
+          <p>{{track.artists[0]?.name}}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="items?.albums?.length">
+  <h5>Álbuns</h5>
+  <div class="results">
+    <a (click)="updateRecentSearchAlbums(album)" *ngFor="let album of items.albums; trackBy:trackAlbumByFn"
+       [routerLink]="[location.path() === '/search' ? '/albums' : '../../albums', album.id]"
+       class="card">
+      <div class="card-image">
+        <img [alt]="album?.name" [src]="album.images[1]?.url">
+      </div>
+      <div class="card-footer">
+        <p>{{album.name}}</p>
+        <p>{{album.artists[0]?.name}}</p>
+      </div>
+    </a>
+  </div>
+</ng-container>
